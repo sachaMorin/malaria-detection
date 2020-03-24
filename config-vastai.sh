@@ -6,9 +6,17 @@
 apt update
 apt install wget
 apt install unzip
+apt install python3-pip
 
 # Python packages
 conda install matplotlib
+
+# Create directories
+mkdir data
+mkdir reports
+mkdir data/external
+mkdir data/processed
+mkdir data/raw
 
 # Download dataset from google drive and unzip
 echo -n 'Downloading dataset from a zip file hosted on Google Drive...'
@@ -27,9 +35,15 @@ wget --save-cookies cookies.txt \
 wget --load-cookies cookies.txt -O $file_name \
      'https://docs.google.com/uc?export=download&id='$file_id'&confirm='$(<confirm.txt)
 
-mkdir data
-unzip $file_name
+# Unzip dataset
+mv $file_name data/external/$file_name
+unzip data/external/$file_name -d data/raw
+
 rm cookies.txt
 rm confirm.txt
-rm $file_name
+
+# Install requirements and project
+pip3 install -r requirements.txt
+pip3 install .
+
 

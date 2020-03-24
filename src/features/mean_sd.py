@@ -1,11 +1,19 @@
 """Find by channel mean and standard deviation on train set."""
+import os
+
 import torch
 from torchvision import transforms, datasets
+from src.data.CustomDataset import CustomDataset
+
+TRAIN_PATH = os.path.join(
+    os.path.dirname(__file__),
+    '../../data/processed/train'
+)
 
 # Prep loader
 data_transform = transforms.Compose(
     [transforms.Resize(size=(96, 96)), transforms.ToTensor()])
-trainset = datasets.ImageFolder(root='./data/train', transform=data_transform)
+trainset = CustomDataset(root=TRAIN_PATH, transform=data_transform)
 train_loader = torch.utils.data.DataLoader(trainset, batch_size=64,
                                            shuffle=False, num_workers=4)
 

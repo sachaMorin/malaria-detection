@@ -1,9 +1,9 @@
 cell_images/
-data/
+/data/
+reports/
 checkpoint.pt
 .idea/
 scratch.py
-results
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -42,7 +42,7 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit x_test / coverage reports
 htmlcov/
 .tox/
 .coverage
