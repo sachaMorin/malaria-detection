@@ -43,10 +43,10 @@ def extract_c_code(string):
 
 
 # Prep directories
-# os.mkdir(TARGET_ROOT + '/train')
-# os.mkdir(TARGET_ROOT + '/test')
-# os.mkdir(TARGET_ROOT + '/train' + '/X')
-# os.mkdir(TARGET_ROOT + '/test' + '/X')
+os.mkdir(TARGET_ROOT + '/train')
+os.mkdir(TARGET_ROOT + '/test')
+os.mkdir(TARGET_ROOT + '/train' + '/X')
+os.mkdir(TARGET_ROOT + '/test' + '/X')
 
 print('Building dataset and splits...')
 

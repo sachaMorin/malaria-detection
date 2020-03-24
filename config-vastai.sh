@@ -19,17 +19,18 @@ mkdir data/processed
 mkdir data/raw
 
 # Download dataset
-wget 'ftp://lhcftp.nlm.nih.gov/Open-Access-Datasets/Malaria/cell_images.zip'
+wget 'ftp://lhcftp.nlm.nih.gov/Open-Access-Datasets/Malaria/cell_images.zip' -P data/external
+wget 'ftp://lhcftp.nlm.nih.gov/Open-Access-Datasets/Malaria/patientid_cellmapping_parasitized.csv' -P data/external
+wget 'ftp://lhcftp.nlm.nih.gov/Open-Access-Datasets/Malaria/patientid_cellmapping_uninfected.csv' -P data/external
 
 # Unzip dataset
-mv $file_name data/external/$file_name
-unzip data/external/$file_name -d data/raw
-
-rm cookies.txt
-rm confirm.txt
+unzip data/external/cell_images.zip -d data/raw
 
 # Install requirements and project
-pip3 install -r requirements.txt
-pip3 install .
+pip install -r requirements.txt
+pip install .
+
+# Make dataset
+python3 src/data/make_dataset.py
 
 
