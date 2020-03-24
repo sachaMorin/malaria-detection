@@ -46,23 +46,24 @@ REPORT_PATH = os.path.join(
     '../../reports'
 )
 
-# Training and random search
-torch.manual_seed(123)
-np.random.seed(123)
+# Randomized search
+N_ITER = 50
 
-N_ITER = 5
-
-GRID = dict(
-    lr=np.logspace(start=-5, stop=-1, num=1000),
+BASIC_GRID = dict(
     optimizer=[optim.Adam, optim.SGD],
-    batch_size=[32, 64, 128],
-    max_epochs=np.logspace(start=0, stop=3, num=100, base=2, dtype='int'),
+    batch_size=[32, 64, 128, 256],
     module__dp_fc=np.linspace(start=0, stop=0.5, num=100),
-    module__dp_conv=np.logspace(start=-5, stop=-1, num=50),
+    module__dp_conv=np.logspace(start=-5, stop=-1, num=5),
 )
 
+GRID = [
+    dict(lr=[0.01], max_epochs=np.arange(start=15, stop=51), **BASIC_GRID),
+    dict(lr=[0.001], max_epochs=np.arange(start=50, stop=81), **BASIC_GRID),
+    dict(lr=[0.0001], max_epochs=np.arange(start=80, stop=200), **BASIC_GRID),
+]
+
 # Cross validation
-N_SPLITS = 2
+N_SPLITS = 5
 
 # Transforms
 # Augmented
@@ -86,14 +87,14 @@ TRANSFORM = transforms.Compose([
 ])
 
 # SCRIPT
-print('Searching...\n')
+print('Searching hyperparameters...\n')
 
 # Retrieve x, y and subject_id
-dataset = CustomDataset(root=TRAIN_PATH, transform=TRANSFORM)
+dataset = CustomDataset(root=TRAIN_PATH, transform=TRANSFORM_AUG)
 y = dataset.getY()
 subject_id = dataset.getGroups()
 
-# Wrap Pytorch Dataset in skorch class for sklearn compatibility
+# Skorch wrapper class for sklearn compatibility
 X = SliceDataset(dataset)
 
 # GroupeKFold validation scheme meaning samples from a given group
@@ -107,7 +108,8 @@ net = NeuralNetBinaryClassifier(
     device=DEVICE,
     criterion=torch.nn.BCELoss,
     iterator_train__shuffle=True,
-    train_split=None  # RandomizedSearchCV handles validation
+    iterator_train_num_workers=8,
+    train_split=None,  # RandomizedSearchCV handles validation
 )
 
 clf = RandomizedSearchCV(estimator=net,
