@@ -2,14 +2,15 @@
 
 # Simple script to set up experiment via SSH on a vast.ai GPU
 
-# Install bash utilities
+# Install utilities
 apt update
 apt install wget
 apt install unzip
 apt install python3-pip
 
-# Python packages
-conda install matplotlib
+# Install requirements and project
+pip install -r requirements.txt
+pip install .
 
 # Create directories
 mkdir data
@@ -25,10 +26,6 @@ wget 'ftp://lhcftp.nlm.nih.gov/Open-Access-Datasets/Malaria/patientid_cellmappin
 
 # Unzip dataset
 unzip data/external/cell_images.zip -d data/raw
-
-# Install requirements and project
-pip install -r requirements.txt
-pip install .
 
 # Make dataset
 python3 src/data/make_dataset.py

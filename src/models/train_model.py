@@ -38,7 +38,7 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 TRAIN_PATH = os.path.join(
     os.path.dirname(__file__),
-    '../../data/processed/test'
+    '../../data/processed/train'
 )
 
 REPORT_PATH = os.path.join(
@@ -104,11 +104,11 @@ group_kfold = GroupKFold(n_splits=N_SPLITS).get_n_splits(X, y, subject_id)
 
 # Estimator and randomized search
 net = NeuralNetBinaryClassifier(
-    Tiny,
+    PaperCNN,
     device=DEVICE,
     criterion=torch.nn.BCELoss,
     iterator_train__shuffle=True,
-    iterator_train_num_workers=8,
+    iterator_train__num_workers=8,
     train_split=None,  # RandomizedSearchCV handles validation
 )
 
