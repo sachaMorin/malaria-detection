@@ -18,22 +18,8 @@ mkdir data/external
 mkdir data/processed
 mkdir data/raw
 
-# Download dataset from google drive and unzip
-echo -n 'Downloading dataset from a zip file hosted on Google Drive...'
-echo -n 'Please enter dataset file name : '
-read file_name
-
-# Id can be found in the google drive URL
-echo -n 'Please enter dataset Google Drive id (can be found in share url) : '
-read file_id
-
-
-wget --save-cookies cookies.txt \
-    'https://docs.google.com/uc?export=download&id='$file_id -O- \
-     | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
-
-wget --load-cookies cookies.txt -O $file_name \
-     'https://docs.google.com/uc?export=download&id='$file_id'&confirm='$(<confirm.txt)
+# Download dataset
+wget 'ftp://lhcftp.nlm.nih.gov/Open-Access-Datasets/Malaria/cell_images.zip'
 
 # Unzip dataset
 mv $file_name data/external/$file_name
