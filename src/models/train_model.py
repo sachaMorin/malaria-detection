@@ -50,16 +50,18 @@ REPORT_PATH = os.path.join(
 N_ITER = 50
 
 BASIC_GRID = dict(
-    optimizer=[optim.Adam, optim.SGD],
-    batch_size=[32, 64, 128, 256],
-    module__dp_fc=np.linspace(start=0, stop=0.5, num=100),
+    optimizer=[optim.Adam],
+    module__dp_fc=np.linspace(start=0, stop=0.5, num=6),
     module__dp_conv=np.logspace(start=-5, stop=-1, num=5),
 )
 
 GRID = [
-    dict(lr=[0.01], max_epochs=np.arange(start=15, stop=51), **BASIC_GRID),
-    dict(lr=[0.001], max_epochs=np.arange(start=50, stop=81), **BASIC_GRID),
-    dict(lr=[0.0001], max_epochs=np.arange(start=80, stop=200), **BASIC_GRID),
+    dict(lr=[0.02, 0.01, 0.005], batch_size=[32],
+         max_epochs=np.arange(start=15, stop=100), **BASIC_GRID),
+    dict(lr=[0.002, 0.001, 0.0005], batch_size=[128],
+         max_epochs=np.arange(start=15, stop=200), **BASIC_GRID),
+    dict(lr=[0.002, 0.001, 0.0005], batch_size=[64],
+         max_epochs=np.arange(start=30, stop=100), **BASIC_GRID),
 ]
 
 # Cross validation

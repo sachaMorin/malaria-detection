@@ -1,6 +1,5 @@
 cell_images/
 /data/
-reports/
 checkpoint.pt
 .idea/
 scratch.py
