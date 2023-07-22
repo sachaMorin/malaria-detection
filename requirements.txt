@@ -1,7 +1,7 @@
 numpy==1.16.4
 torchvision==0.3.0
 skorch==0.7.0
-torch==1.1.0
+torch==1.13.1
 pandas==1.0.2
 Pillow==6.1.0
 scikit_learn==0.22.2.post1
